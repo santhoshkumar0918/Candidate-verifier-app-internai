@@ -104,7 +104,7 @@ POST http://localhost:3000/api/verify
 Content-Type: application/json
 ```
 
-### Request Body
+### Request Body Format
 
 ```json
 {
@@ -144,7 +144,7 @@ Content-Type: application/json
 }
 ```
 
-### Response Body
+### Response Body Format
 
 ```json
 {
