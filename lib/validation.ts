@@ -36,23 +36,19 @@ export const validateField = (field: string, value: any): ValidationResult => {
   }
 };
 
-// Validate additional question answer
 export const validateAdditionalAnswer = (
   question: AdditionalQuestion,
   answer: any
 ): ValidationResult => {
   try {
-    // Handle empty required fields
     if (question.required && (!answer || answer.toString().trim() === "")) {
       return { isValid: false, errors: ["This field is required"] };
     }
 
-    // Skip validation for optional empty fields
     if (!question.required && (!answer || answer.toString().trim() === "")) {
       return { isValid: true, errors: [] };
     }
 
-    // Type-specific validation
     switch (question.type) {
       case "text":
         z.string().min(3, "Text must be at least 3 characters").parse(answer);
@@ -95,7 +91,6 @@ export const validateAdditionalAnswer = (
   }
 };
 
-// Normalize yes/no answers
 export const normalizeYesNo = (value: string): string => {
   const lower = value.toLowerCase();
   if (["y", "yes"].includes(lower)) return "Yes";
@@ -103,7 +98,6 @@ export const normalizeYesNo = (value: string): string => {
   return value;
 };
 
-// Convert string numbers to actual numbers
 export const normalizeNumber = (value: string): number | string => {
   const num = parseFloat(value);
   return isNaN(num) ? value : num;

@@ -13,7 +13,6 @@ type VerificationStore = VerificationState & VerificationActions;
 export const useVerificationStore = create<VerificationStore>()(
   devtools(
     (set, get) => ({
-      // Initial state
       step: "loading",
       inputData: null,
       fieldStatuses: {},
@@ -22,11 +21,9 @@ export const useVerificationStore = create<VerificationStore>()(
       currentFieldIndex: 0,
       currentQuestionIndex: 0,
 
-      // Actions
       setInputData: (data: InputData) => {
         const fieldStatuses: Record<string, FieldStatus> = {};
 
-        // Initialize field statuses with validation
         Object.entries(data.fields).forEach(([field, value]) => {
           const validation = validateField(field, value);
           fieldStatuses[field] = {
@@ -113,12 +110,10 @@ export const useVerificationStore = create<VerificationStore>()(
 
         const correctedData: Record<string, any> = {};
 
-        // Add corrected field data
         Object.entries(state.fieldStatuses).forEach(([field, status]) => {
           correctedData[field] = status.value;
         });
 
-        // Add additional answers
         Object.entries(state.additionalAnswers).forEach(
           ([questionId, answer]) => {
             correctedData[questionId] = answer;

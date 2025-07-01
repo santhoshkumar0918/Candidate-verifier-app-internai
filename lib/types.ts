@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Zod schemas for validation
 export const fieldValidationSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   email: z.string().email("Please enter a valid email address"),
@@ -30,7 +29,6 @@ export const outputDataSchema = z.object({
   timestamp: z.string(),
 });
 
-// TypeScript types
 export type FieldData = z.infer<typeof fieldValidationSchema>;
 export type AdditionalQuestion = z.infer<typeof additionalQuestionSchema>;
 export type InputData = z.infer<typeof inputDataSchema>;

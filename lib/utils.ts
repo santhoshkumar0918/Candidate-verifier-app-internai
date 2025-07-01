@@ -15,8 +15,6 @@ export const formatTimestamp = (timestamp: string): string => {
     second: "2-digit",
   });
 };
-
-// Generate unique session ID
 export const generateSessionId = (): string => {
   return (
     Math.random().toString(36).substring(2, 15) +
@@ -24,7 +22,6 @@ export const generateSessionId = (): string => {
   );
 };
 
-// Download JSON file
 export const downloadJSON = (data: any, filename: string): void => {
   const dataStr = JSON.stringify(data, null, 2);
   const dataUri =
@@ -40,19 +37,16 @@ export const downloadJSON = (data: any, filename: string): void => {
   linkElement.click();
 };
 
-// Validate email format
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-// Validate phone number format
 export const isValidPhone = (phone: string): boolean => {
   const phoneRegex = /^\d{10,}$/;
   return phoneRegex.test(phone.replace(/\D/g, ""));
 };
 
-// Clean and format phone number
 export const formatPhoneNumber = (phone: string): string => {
   const cleaned = phone.replace(/\D/g, "");
   if (cleaned.length === 10) {
@@ -61,7 +55,6 @@ export const formatPhoneNumber = (phone: string): string => {
   return phone;
 };
 
-// Capitalize first letter of each word
 export const capitalizeWords = (str: string): string => {
   return str.replace(
     /\w\S*/g,
@@ -69,7 +62,6 @@ export const capitalizeWords = (str: string): string => {
   );
 };
 
-// Safe JSON parse with error handling
 export const safeJSONParse = (
   jsonString: string
 ): { success: boolean; data?: any; error?: string } => {
@@ -84,7 +76,6 @@ export const safeJSONParse = (
   }
 };
 
-// Debounce function for input validation
 export const debounce = <T extends (...args: any[]) => any>(
   func: T,
   delay: number
