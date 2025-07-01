@@ -63,6 +63,24 @@ Enter your candidate details and follow the guided verification process.
 - Click Save & download the final JSON output
 - Complete the verification process
 
+## Screenshots
+
+Check the output screenshots to see the application in action:
+
+- **Step 1 - Data Input:** `public/page1.png`
+- **Step 2 - Field Verification:** `public/page2.png`
+- **Step 3 - Additional Questions:** `public/page3.png`
+- **Step 4 - Verification Summary:** `public/page4.png`
+- **step 5 - Summar & Export:** `public/page5.png`
+- **Output JSON:** `public/output_json.png`
+
+![Data Input](public/page1.png)
+![Field Verification](public/page2.png)
+![Additional Questions](public/page3.png)
+![Verification Summary](public/page4.png)
+![Summary & Export](public/page5.png)
+![Output JSON](public/output_json.png)
+
 ## API Usage
 
 The app also provides a REST API for programmatic access:
