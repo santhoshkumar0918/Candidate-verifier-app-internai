@@ -40,7 +40,6 @@ export const AdditionalQuestions: React.FC = () => {
   ) => {
     let processedAnswer = answer;
 
-    // Process answer based on type
     if (question.type === "yesno") {
       processedAnswer = normalizeYesNo(answer);
     } else if (question.type === "number") {
@@ -49,11 +48,12 @@ export const AdditionalQuestions: React.FC = () => {
 
     setAdditionalAnswer(questionId, processedAnswer);
 
-    const validation = validateAdditionalAnswer(question, processedAnswer);
-    setErrors((prev) => ({
-      ...prev,
-      [questionId]: validation.errors,
-    }));
+    if (errors[questionId]) {
+      setErrors((prev) => ({
+        ...prev,
+        [questionId]: [],
+      }));
+    }
   };
 
   const handleContinue = () => {
@@ -79,6 +79,7 @@ export const AdditionalQuestions: React.FC = () => {
   const renderQuestionInput = (question: AdditionalQuestion) => {
     const currentAnswer = additionalAnswers[question.id] || "";
     const questionErrors = errors[question.id] || [];
+    const hasError = questionErrors.length > 0;
 
     switch (question.type) {
       case "number":
@@ -90,7 +91,7 @@ export const AdditionalQuestions: React.FC = () => {
               handleAnswerChange(question.id, e.target.value, question)
             }
             placeholder="Enter a number"
-            className={questionErrors.length > 0 ? "border-red-500" : ""}
+            className={hasError ? "border-red-500" : ""}
           />
         );
 
@@ -123,7 +124,7 @@ export const AdditionalQuestions: React.FC = () => {
                 handleAnswerChange(question.id, e.target.value, question)
               }
               placeholder="Enter your answer"
-              className={questionErrors.length > 0 ? "border-red-500" : ""}
+              className={hasError ? "border-red-500" : ""}
             />
           );
         }
@@ -154,7 +155,7 @@ export const AdditionalQuestions: React.FC = () => {
               handleAnswerChange(question.id, e.target.value, question)
             }
             placeholder="Enter your answer"
-            className={questionErrors.length > 0 ? "border-red-500" : ""}
+            className={hasError ? "border-red-500" : ""}
           />
         );
     }

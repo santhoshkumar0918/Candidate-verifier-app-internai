@@ -1,36 +1,201 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Candidate Detail Verifier:
 
-## Getting Started
+A Modern web based verification system that validates candidate information through screening flow with dynamic validation, This tool demonstrates clean validation logic .
 
-First, run the development server:
+What it does:
 
-```bash
+- Loads candidate data and validates fields like email, phone, etc.
+- Walks users through confirming or correcting their info
+- Asks additional questions (notice period, experience, location)
+- Generates a clean JSON output with verified data
+
+## Quick Start
+
+# 1. Clone the repository
+
+git clone https://github.com/santhoshkumar0918/Candidate-verifier-app-internai
+cd candidate-detail-verifier
+
+# 2. Install dependencies
+
+npm install
+
+# 3. Start development server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 4. Open in browser
+
+# Web Interface: http://localhost:3000
+
+# API Endpoint: http://localhost:3000/api/verify
+
+Enter your candidate details and follow the guided verification process.
+
+## Project Walkthrough
+
+### Step 1: Data Input
+
+- Enter basic candidate info (name, email, phone, availability, skills)
+- Shows preview of additional questions that'll be asked later
+- Has basic validation before proceeding
+
+### Step 2: Field Verification
+
+- Review each field with clear validation feedback
+- Edit any incorrect information inline
+- After Reviewed each field , click the confirm button for addtional question section.
+
+### Step 3: Additional Questions
+
+- Answer dynamic questions based on the input configuration
+- Supports different question types (text, number, yes/no)
+- Required vs optional field handling
+
+### Step 4: Summary & Export
+
+- Review all verified information
+- Click Save & download the final JSON output
+- Complete the verification process
+
+## API Usage
+
+The app also provides a REST API for programmatic access:
+
+`````bash
+# Check API status
+GET http://localhost:3000/api/verify
+
+# Submit verification data
+POST http://localhost:3000/api/verify
+Content-Type: application/json
+
+# Body: see input.json for structure
+````{
+  "sessionId": "sessionId_12345678",
+  "fields": {
+    "name": "Santhoshkumar",
+    "email": "Santhosh@gmail.com",
+    "phone": "1234567890",
+    "available": "Yes",
+    "skills": "React, TypeScript, Node.js"
+  },
+  "additionalQuestions": [
+    {
+      "id": "noticePeriod",
+      "questionText": "What is your notice period?",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "experience",
+      "questionText": "How many years of experience do you have?",
+      "type": "number",
+      "required": false
+    },
+    {
+      "id": "preferredLocation",
+      "questionText": "Which location do you prefer to work from?",
+      "type": "text",
+      "required": false
+    }
+  ],
+  "additionalAnswers": {
+    "noticePeriod": "15 days",
+    "experience": 4,
+    "preferredLocation": "Chennai"
+  }
+}```
+
+Body : see Output.json for structure
+`````
+
+{
+"success": true,
+"data": {
+"sessionId": "sessionId_12345678",
+"verified": true,
+"correctedData": {
+"name": "Santhoshkumar",
+"email": "Santhoshkumar@gmail.com",
+"phone": "1234567890",
+"available": "Yes",
+"skills": "React, TypeScript, Node.js",
+"noticePeriod": "15 days",
+"experience": 4,
+"preferredLocation": "Chennai"
+},
+"timestamp": "2025-07-01T09:28:51.292Z"
+},
+"message": "Verification completed successfully"
+}
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## My Approach
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+When I got this assignment, I wanted to build something that felt professional and actually usable, not just a tech demo.
 
-## Learn More
+Architecture decisions:
 
-To learn more about Next.js, take a look at the following resources:
+- Went with Next.js for the full-stack simplicity
+- Used TypeScript everywhere because validation is crucial here
+- Chose Zustand for lighweight and boilerplate code
+- Zod for validation since it plays nicely with TypeScript
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+UX thinking:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Made it a guided flow instead of one giant form
+- Added visual progress so users know where they are
+- Inline editing because forcing users to start over is annoying
+- Clean, straightforward data entry process
 
-## Deploy on Vercel
+Technical choices:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Kept validation logic separate so it's reusable
+- Used proper HTTP status codes in the API
+- Made the question system extensible even though the requirements were fixed
+- Added error boundaries and proper loading states
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## File Structure
+
+```
+
+app/
+├── api/verify/route.ts # REST API endpoint
+├── page.tsx #it wraps all our components
+├── layout.tsx
+components/
+├── DataInput.tsx # Step 1: Basic info
+├── FieldVerification.tsx # Step 2: Confirm fields
+├── AdditionalQuestions.tsx # Step 3: Extra questions
+├── SummaryScreen.tsx # Step 4: Review & download
+lib/
+├── store.ts # State management
+├── validation.ts # All validation logic
+├── types.ts # TypeScript definitions
+data/
+├── inuput.json
+├── output.json
+
+```
+
+## Tech Stack
+
+- Frontend: Next.js 15, React 19, TypeScript
+- Styling: Tailwind CSS with Shadcn UI components
+- State: Zustand (lightweight)
+- Validation: Zod schemas
+- API: Next.js API routes
+
+Testing:
+
+Load the app and enter some candidate details - try entering invalid email formats or short phone numbers to see the validation in action.
+
+For API testing, check out the `input.json` and `output.json` files to see the expected format. and then it the api endpoints with the postman .
+
+THANK YOU FOR GIVING THIS OPPORTUNITY:
+```
