@@ -26,7 +26,6 @@ export const DataInput: React.FC = () => {
   >("Yes");
   const [skills, setSkills] = useState("");
 
-  // Default questions with third one as required
   const defaultAdditionalQuestions: {
     id: string;
     questionText: string;
@@ -50,7 +49,7 @@ export const DataInput: React.FC = () => {
       id: "preferredLocation",
       questionText: "Which location do you prefer to work from?",
       type: "text",
-      required: true, // Made required
+      required: true,
     },
   ];
 
