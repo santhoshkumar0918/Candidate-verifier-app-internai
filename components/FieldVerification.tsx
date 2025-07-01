@@ -14,11 +14,7 @@ export const FieldVerification: React.FC = () => {
   const [editValue, setEditValue] = useState<string>("");
 
   const fields = Object.values(fieldStatuses) as FieldStatus[];
-  const allFieldsConfirmed = fields.every((field) => field.isConfirmed);
-
-  const handleConfirm = (field: string) => {
-    updateFieldStatus(field, { isConfirmed: true });
-  };
+  const allFieldsValid = fields.every((field) => field.isValid);
 
   const handleEdit = (field: string, currentValue: any) => {
     setEditingField(field);
@@ -31,7 +27,6 @@ export const FieldVerification: React.FC = () => {
       value: editValue,
       isValid: validation.isValid,
       errors: validation.errors,
-      isConfirmed: validation.isValid,
     });
     setEditingField(null);
     setEditValue("");
@@ -40,6 +35,15 @@ export const FieldVerification: React.FC = () => {
   const handleCancelEdit = () => {
     setEditingField(null);
     setEditValue("");
+  };
+
+  const handleConfirmAll = () => {
+    fields.forEach((field) => {
+      if (field.isValid) {
+        updateFieldStatus(field.field, { isConfirmed: true });
+      }
+    });
+    nextStep();
   };
 
   const getFieldLabel = (field: string): string => {
@@ -58,7 +62,7 @@ export const FieldVerification: React.FC = () => {
       <div className="text-center">
         <h2 className="text-2xl font-bold">Verify Your Details</h2>
         <p className="text-muted-foreground mt-2">
-          Please confirm or correct the following information
+          Please review and correct the following information if needed
         </p>
       </div>
 
@@ -68,10 +72,9 @@ export const FieldVerification: React.FC = () => {
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
                 {getFieldLabel(fieldStatus.field)}
-                {fieldStatus.isValid && fieldStatus.isConfirmed && (
+                {fieldStatus.isValid ? (
                   <CheckCircle className="h-4 w-4 text-green-500" />
-                )}
-                {!fieldStatus.isValid && (
+                ) : (
                   <XCircle className="h-4 w-4 text-red-500" />
                 )}
               </CardTitle>
@@ -134,27 +137,6 @@ export const FieldVerification: React.FC = () => {
                       Edit
                     </Button>
                   </div>
-
-                  {fieldStatus.isValid && !fieldStatus.isConfirmed && (
-                    <div className="flex gap-2 pt-2">
-                      <Button
-                        size="sm"
-                        onClick={() => handleConfirm(fieldStatus.field)}
-                        className="bg-green-600 hover:bg-green-700"
-                      >
-                        Confirm Correct
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() =>
-                          handleEdit(fieldStatus.field, fieldStatus.value)
-                        }
-                      >
-                        Needs Correction
-                      </Button>
-                    </div>
-                  )}
                 </div>
               )}
             </CardContent>
@@ -162,13 +144,36 @@ export const FieldVerification: React.FC = () => {
         ))}
       </div>
 
-      {allFieldsConfirmed && (
-        <div className="text-center pt-4">
-          <Button onClick={nextStep} size="lg">
-            Continue to Additional Questions →
-          </Button>
-        </div>
-      )}
+      {/* Single confirmation section */}
+      <div className="border-t pt-6">
+        {allFieldsValid ? (
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center gap-2 text-green-600">
+              <CheckCircle className="h-5 w-5" />
+              <span className="font-medium">All fields are valid!</span>
+            </div>
+            <Button
+              onClick={handleConfirmAll}
+              size="lg"
+              className="bg-green-600 hover:bg-green-700"
+            >
+              Confirm All Details & Continue →
+            </Button>
+          </div>
+        ) : (
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center gap-2 text-amber-600">
+              <XCircle className="h-5 w-5" />
+              <span className="font-medium">
+                Please correct the errors above before continuing
+              </span>
+            </div>
+            <Button disabled size="lg" variant="outline">
+              Fix Errors to Continue
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

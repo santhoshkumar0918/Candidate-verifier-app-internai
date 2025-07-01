@@ -11,25 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
-import {
-  Plus,
-  Trash2,
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  Code,
-  Clock,
-} from "lucide-react";
+import { User, Clock } from "lucide-react";
 import { useVerificationStore } from "@/lib/store";
-import { InputData, AdditionalQuestion } from "@/lib/types";
+import { InputData } from "@/lib/types";
 
 export const DataInput: React.FC = () => {
   const { setInputData } = useVerificationStore();
 
-  // Basic fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -38,42 +26,33 @@ export const DataInput: React.FC = () => {
   >("Yes");
   const [skills, setSkills] = useState("");
 
-  // Additional questions
-  const [additionalQuestions, setAdditionalQuestions] = useState<
-    AdditionalQuestion[]
-  >([
+  // Default questions with third one as required
+  const defaultAdditionalQuestions: {
+    id: string;
+    questionText: string;
+    type: "text" | "number" | "options" | "yesno";
+    required: boolean;
+    options?: string[];
+  }[] = [
     {
       id: "noticePeriod",
       questionText: "What is your notice period?",
       type: "text",
       required: true,
     },
-  ]);
-
-  const [showAdvanced, setShowAdvanced] = useState(false);
-
-  const addQuestion = () => {
-    const newQuestion: AdditionalQuestion = {
-      id: `question_${Date.now()}`,
-      questionText: "",
-      type: "text",
+    {
+      id: "experience",
+      questionText: "How many years of experience do you have?",
+      type: "number",
       required: false,
-    };
-    setAdditionalQuestions([...additionalQuestions, newQuestion]);
-  };
-
-  const updateQuestion = (
-    index: number,
-    updates: Partial<AdditionalQuestion>
-  ) => {
-    const updated = [...additionalQuestions];
-    updated[index] = { ...updated[index], ...updates };
-    setAdditionalQuestions(updated);
-  };
-
-  const removeQuestion = (index: number) => {
-    setAdditionalQuestions(additionalQuestions.filter((_, i) => i !== index));
-  };
+    },
+    {
+      id: "preferredLocation",
+      questionText: "Which location do you prefer to work from?",
+      type: "text",
+      required: true, // Made required
+    },
+  ];
 
   const handleStartVerification = () => {
     const inputData: InputData = {
@@ -85,41 +64,18 @@ export const DataInput: React.FC = () => {
         available,
         skills: skills.trim(),
       },
-      additionalQuestions: additionalQuestions.filter(
-        (q) => q.questionText.trim() !== ""
-      ),
+      additionalQuestions: defaultAdditionalQuestions,
     };
 
     setInputData(inputData);
   };
 
   const loadSampleData = () => {
-    setName("John Doe");
-    setEmail("john@example.com");
+    setName("Santhosh kumar");
+    setEmail("santhosh@gmail.com");
     setPhone("1234567890");
     setAvailable("Yes");
     setSkills("React, TypeScript, Node.js");
-
-    setAdditionalQuestions([
-      {
-        id: "noticePeriod",
-        questionText: "What is your notice period?",
-        type: "text",
-        required: true,
-      },
-      {
-        id: "experience",
-        questionText: "How many years of experience do you have?",
-        type: "number",
-        required: false,
-      },
-      {
-        id: "preferredLocation",
-        questionText: "Which location do you prefer to work from?",
-        type: "text",
-        required: false,
-      },
-    ]);
   };
 
   const isFormValid = name.trim() && email.trim() && phone.trim();
@@ -133,19 +89,6 @@ export const DataInput: React.FC = () => {
         <p className="text-muted-foreground text-lg">
           Enter candidate details to begin the verification process
         </p>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="flex justify-center gap-4">
-        <Button onClick={loadSampleData} variant="outline">
-          Load Sample Data
-        </Button>
-        <Button
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          variant="outline"
-        >
-          {showAdvanced ? "Hide Advanced" : "Show Advanced"}
-        </Button>
       </div>
 
       {/* Basic Information */}
@@ -227,108 +170,51 @@ export const DataInput: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Additional Questions */}
+      {/* Additional Questions Preview */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              Additional Questions
-            </div>
-            <Button onClick={addQuestion} size="sm" variant="outline">
-              <Plus className="h-4 w-4 mr-1" />
-              Add Question
-            </Button>
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5" />
+            Additional Questions Preview
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {additionalQuestions.map((question, index) => (
-            <Card key={question.id} className="p-4">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <Badge variant="outline">Question {index + 1}</Badge>
-                  {additionalQuestions.length > 1 && (
-                    <Button
-                      onClick={() => removeQuestion(index)}
-                      size="sm"
-                      variant="ghost"
-                      className="text-red-500 hover:text-red-700"
+        <CardContent>
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-4 rounded-lg space-y-3">
+            <p className="font-medium text-sm text-blue-900">
+              These questions will be asked during verification:
+            </p>
+            <div className="space-y-2">
+              {defaultAdditionalQuestions.map((question, index) => (
+                <div key={question.id} className="flex items-start gap-3">
+                  <span className="bg-blue-100 text-blue-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-medium mt-0.5">
+                    {index + 1}
+                  </span>
+                  <div className="flex-1">
+                    <span className="text-sm text-gray-800 font-medium">
+                      {question.questionText}
+                    </span>
+                    <span
+                      className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
+                        question.required
+                          ? "bg-red-100 text-red-700"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
                     >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-
-                <div>
-                  <Label>Question Text</Label>
-                  <Input
-                    value={question.questionText}
-                    onChange={(e) =>
-                      updateQuestion(index, { questionText: e.target.value })
-                    }
-                    placeholder="Enter your question"
-                    className="mt-1"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label>Answer Type</Label>
-                    <Select
-                      value={question.type}
-                      onValueChange={(value: any) =>
-                        updateQuestion(index, { type: value })
-                      }
-                    >
-                      <SelectTrigger className="mt-1">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="text">Text</SelectItem>
-                        <SelectItem value="number">Number</SelectItem>
-                        <SelectItem value="yesno">Yes/No</SelectItem>
-                        <SelectItem value="options">Multiple Choice</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="flex items-center space-x-2 mt-6">
-                    <Switch
-                      checked={question.required}
-                      onCheckedChange={(checked) =>
-                        updateQuestion(index, { required: checked })
-                      }
-                    />
-                    <Label>Required</Label>
+                      {question.required ? "Required" : "Optional"}
+                    </span>
                   </div>
                 </div>
-
-                {question.type === "options" && (
-                  <div>
-                    <Label>Options (comma-separated)</Label>
-                    <Input
-                      value={question.options?.join(", ") || ""}
-                      onChange={(e) =>
-                        updateQuestion(index, {
-                          options: e.target.value
-                            .split(",")
-                            .map((opt) => opt.trim())
-                            .filter((opt) => opt),
-                        })
-                      }
-                      placeholder="Option 1, Option 2, Option 3"
-                      className="mt-1"
-                    />
-                  </div>
-                )}
-              </div>
-            </Card>
-          ))}
+              ))}
+            </div>
+          </div>
         </CardContent>
       </Card>
 
-      {/* Start Verification */}
-      <div className="text-center pt-6">
+      {/* Actions */}
+      <div className="flex justify-center gap-4 pt-6">
+        <Button onClick={loadSampleData} variant="outline" size="lg">
+          Load Sample Data
+        </Button>
         <Button
           onClick={handleStartVerification}
           disabled={!isFormValid}
@@ -337,12 +223,13 @@ export const DataInput: React.FC = () => {
         >
           Start Verification Process →
         </Button>
-        {!isFormValid && (
-          <p className="text-sm text-muted-foreground mt-2">
-            Please fill in all required fields (marked with *)
-          </p>
-        )}
       </div>
+
+      {!isFormValid && (
+        <p className="text-sm text-muted-foreground text-center">
+          Please fill in all required fields (marked with *)
+        </p>
+      )}
     </div>
   );
 };

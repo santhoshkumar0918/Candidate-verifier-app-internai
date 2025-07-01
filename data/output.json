@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "data": {
+    "sessionId": "sessionId_12345678",
+    "verified": true,
+    "correctedData": {
+      "name": "Santhoshkumar",
+      "email": "Santhoshkumar@gmail.com",
+      "phone": "9876543210",
+      "available": "Yes",
+      "skills": "Node.js, React",
+      "noticePeriod": "15 days",
+      "experience": 4,
+      "preferredLocation": "Chennai"
+    },
+    "timestamp": "2025-07-01T09:28:51.292Z"
+  },
+  "message": "Verification completed successfully"
+}

@@ -1,0 +1,35 @@
+{
+  "sessionId": "sessionId_12345678",
+  "fields": {
+    "name": "Santhoshkumar",
+    "email": "Santhoshkumar@gmail.com",
+    "phone": "9876543210",
+    "available": "Yes",
+    "skills": "Node.js, React"
+  },
+  "additionalQuestions": [
+    {
+      "id": "noticePeriod",
+      "questionText": "What is your notice period?",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "experience",
+      "questionText": "How many years of experience do you have?",
+      "type": "number",
+      "required": false
+    },
+    {
+      "id": "preferredLocation",
+      "questionText": "Which location do you prefer to work from?",
+      "type": "text",
+      "required": false
+    }
+  ],
+  "additionalAnswers": {
+    "noticePeriod": "15 days",
+    "experience": 4,
+    "preferredLocation": "Chennai"
+  }
+}
