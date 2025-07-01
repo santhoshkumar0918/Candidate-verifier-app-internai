@@ -1,8 +1,8 @@
-Candidate Detail Verifier:
+# Candidate Detail Verifier
 
-A Modern web based verification system that validates candidate information through screening flow with dynamic validation, This tool demonstrates clean validation logic .
+A Modern web based verification system that validates candidate information through screening flow with dynamic validation, This tool demonstrates clean validation logic.
 
-What it does:
+## What it does
 
 - Loads candidate data and validates fields like email, phone, etc.
 - Walks users through confirming or correcting their info
@@ -11,24 +11,29 @@ What it does:
 
 ## Quick Start
 
-# 1. Clone the repository
+### 1. Clone the repository
 
+```bash
 git clone https://github.com/santhoshkumar0918/Candidate-verifier-app-internai
 cd candidate-detail-verifier
+```
 
-# 2. Install dependencies
+### 2. Install dependencies
 
+```bash
 npm install
+```
 
-# 3. Start development server
+### 3. Start development server
 
+```bash
 npm run dev
+```
 
-# 4. Open in browser
+### 4. Open in browser
 
-# Web Interface: http://localhost:3000
-
-# API Endpoint: http://localhost:3000/api/verify
+- Web Interface: http://localhost:3000
+- API Endpoint: http://localhost:3000/api/verify
 
 Enter your candidate details and follow the guided verification process.
 
@@ -62,16 +67,19 @@ Enter your candidate details and follow the guided verification process.
 
 The app also provides a REST API for programmatic access:
 
-`````bash
+```bash
 # Check API status
 GET http://localhost:3000/api/verify
 
 # Submit verification data
 POST http://localhost:3000/api/verify
 Content-Type: application/json
+```
 
-# Body: see input.json for structure
-````{
+### Request Body
+
+```json
+{
   "sessionId": "sessionId_12345678",
   "fields": {
     "name": "Santhoshkumar",
@@ -105,97 +113,93 @@ Content-Type: application/json
     "experience": 4,
     "preferredLocation": "Chennai"
   }
-}```
-
-Body : see Output.json for structure
-`````
-
-{
-"success": true,
-"data": {
-"sessionId": "sessionId_12345678",
-"verified": true,
-"correctedData": {
-"name": "Santhoshkumar",
-"email": "Santhoshkumar@gmail.com",
-"phone": "1234567890",
-"available": "Yes",
-"skills": "React, TypeScript, Node.js",
-"noticePeriod": "15 days",
-"experience": 4,
-"preferredLocation": "Chennai"
-},
-"timestamp": "2025-07-01T09:28:51.292Z"
-},
-"message": "Verification completed successfully"
 }
-
 ```
 
+### Response Body
+
+```json
+{
+  "success": true,
+  "data": {
+    "sessionId": "sessionId_12345678",
+    "verified": true,
+    "correctedData": {
+      "name": "Santhoshkumar",
+      "email": "Santhoshkumar@gmail.com",
+      "phone": "1234567890",
+      "available": "Yes",
+      "skills": "React, TypeScript, Node.js",
+      "noticePeriod": "15 days",
+      "experience": 4,
+      "preferredLocation": "Chennai"
+    },
+    "timestamp": "2025-07-01T09:28:51.292Z"
+  },
+  "message": "Verification completed successfully"
+}
+```
 
 ## My Approach
 
 When I got this assignment, I wanted to build something that felt professional and actually usable, not just a tech demo.
 
-Architecture decisions:
+**Architecture decisions:**
 
 - Went with Next.js for the full-stack simplicity
 - Used TypeScript everywhere because validation is crucial here
 - Chose Zustand for lighweight and boilerplate code
 - Zod for validation since it plays nicely with TypeScript
 
-UX thinking:
+**UX thinking:**
 
 - Made it a guided flow instead of one giant form
 - Added visual progress so users know where they are
 - Inline editing because forcing users to start over is annoying
 - Clean, straightforward data entry process
 
-Technical choices:
+**Technical choices:**
 
 - Kept validation logic separate so it's reusable
 - Used proper HTTP status codes in the API
 - Made the question system extensible even though the requirements were fixed
 - Added error boundaries and proper loading states
 
-
-
 ## File Structure
 
 ```
-
 app/
-├── api/verify/route.ts # REST API endpoint
-├── page.tsx #it wraps all our components
+├── api/verify/route.ts     # REST API endpoint
+├── page.tsx                # it wraps all our components
 ├── layout.tsx
 components/
-├── DataInput.tsx # Step 1: Basic info
-├── FieldVerification.tsx # Step 2: Confirm fields
+├── DataInput.tsx           # Step 1: Basic info
+├── FieldVerification.tsx   # Step 2: Confirm fields
 ├── AdditionalQuestions.tsx # Step 3: Extra questions
-├── SummaryScreen.tsx # Step 4: Review & download
+├── SummaryScreen.tsx       # Step 4: Review & download
 lib/
-├── store.ts # State management
-├── validation.ts # All validation logic
-├── types.ts # TypeScript definitions
+├── store.ts                # State management
+├── validation.ts           # All validation logic
+├── types.ts                # TypeScript definitions
 data/
-├── inuput.json
+├── input.json
 ├── output.json
-
 ```
 
 ## Tech Stack
 
-- Frontend: Next.js 15, React 19, TypeScript
-- Styling: Tailwind CSS with Shadcn UI components
-- State: Zustand (lightweight)
-- Validation: Zod schemas
-- API: Next.js API routes
+- **Frontend:** Next.js 15, React 19, TypeScript
+- **Styling:** Tailwind CSS with Shadcn UI components
+- **State:** Zustand (lightweight)
+- **Validation:** Zod schemas
+- **API:** Next.js API routes
 
-Testing:
+## Testing
 
 Load the app and enter some candidate details - try entering invalid email formats or short phone numbers to see the validation in action.
 
-For API testing, check out the `input.json` and `output.json` files to see the expected format. and then it the api endpoints with the postman .
+For API testing, check out the `input.json` and `output.json` files to see the expected format. and then it the api endpoints with the postman.
 
-THANK YOU FOR GIVING THIS OPPORTUNITY:
-```
+---
+
+**THANK YOU FOR GIVING THIS OPPORTUNITY**

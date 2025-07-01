@@ -38,6 +38,7 @@ export const FieldVerification: React.FC = () => {
   };
 
   const handleConfirmAll = () => {
+    // Mark all valid fields as confirmed
     fields.forEach((field) => {
       if (field.isValid) {
         updateFieldStatus(field.field, { isConfirmed: true });
