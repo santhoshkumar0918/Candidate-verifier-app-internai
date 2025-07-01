@@ -81,6 +81,16 @@ Check the output screenshots to see the application in action:
 ![Summary & Export](public/page5.png)
 ![Output JSON](public/output_json.png)
 
+## Demo Video
+
+Watch the complete application walkthrough and demonstration:
+
+[![Candidate Detail Verifier Demo](https://img.youtube.com/vi/eKX3d-16oCw/0.jpg)](https://youtu.be/eKX3d-16oCw)
+
+🎥 **[Watch Demo Video](https://youtu.be/eKX3d-16oCw)**
+
+This video demonstrates the complete verification flow from data input to final JSON export.
+
 ## API Usage
 
 The app also provides a REST API for programmatic access:
